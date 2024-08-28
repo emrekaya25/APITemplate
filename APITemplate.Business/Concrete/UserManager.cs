@@ -41,6 +41,15 @@ namespace APITemplate.Business.Concrete
 
 		public async Task DeleteAsync(UserDTORequest entity)
 		{
+			var userRoles = await _uow.UserRoleRepository.GetAllAsync(x=>x.UserId == entity.Id);
+			if (userRoles != null)
+			{
+				foreach (var userRole in userRoles)
+				{
+					await _uow.UserRoleRepository.DeleteAsync(userRole);
+				}
+				await _uow.SaveChangesAsync();
+			}
 			var user = _mapper.Map<User>(entity);
 			await _uow.UserRepository.DeleteAsync(user);
 			await _uow.SaveChangesAsync();
@@ -48,7 +57,7 @@ namespace APITemplate.Business.Concrete
 
 		public async Task<List<UserDTOResponse>> GetAllAsync(UserDTORequest entity)
 		{
-			var users = await _uow.UserRepository.GetAllAsync(x=>true);
+			var users = await _uow.UserRepository.GetAllAsync(x=>true,"UserRoles.Role");
 			List<UserDTOResponse> userDTOResponses = new();
 			foreach (var user in users)
 			{
@@ -59,7 +68,7 @@ namespace APITemplate.Business.Concrete
 
 		public async Task<UserDTOResponse> GetAsync(UserDTORequest entity)
 		{
-			var user = await _uow.UserRepository.GetAsync(x=>x.Id == entity.Id);
+			var user = await _uow.UserRepository.GetAsync(x=>x.Id == entity.Id, "UserRoles.Role");
 			var userResponse = _mapper.Map<UserDTOResponse>(user);
 			return userResponse;
 		}
