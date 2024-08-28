@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.16" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\APITemplate.Business\APITemplate.Business.csproj" />
+    <ProjectReference Include="..\APITemplate.DataAccess\APITemplate.DataAccess.csproj" />
+    <ProjectReference Include="..\APITemplate.Entity\APITemplate.Entity.csproj" />
+    <ProjectReference Include="..\APITemplate.Tools\APITemplate.Tools.csproj" />
+  </ItemGroup>
+
+</Project>
