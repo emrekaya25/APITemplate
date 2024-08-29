@@ -13,8 +13,11 @@ namespace APITemplate.Business.DTOMapper.LoginDTOMapper
 	{
         public LoginDTOResponseMapper()
         {
-            CreateMap<User, LoginDTOResponse>();
-            CreateMap<LoginDTOResponse, User>();
+            CreateMap<User, LoginDTOResponse>().
+                ForMember(dest => dest.Roles, opt =>
+                {
+                    opt.MapFrom(src=>src.UserRoles);
+                }).ReverseMap();
         }
     }
 }

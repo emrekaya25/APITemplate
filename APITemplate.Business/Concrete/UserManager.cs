@@ -4,9 +4,13 @@ using APITemplate.Entity.DTO.LoginDTO;
 using APITemplate.Entity.DTO.UserDTO;
 using APITemplate.Entity.Poco;
 using AutoMapper;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,10 +20,12 @@ namespace APITemplate.Business.Concrete
 	{
 		private readonly IUnitOfWork _uow;
 		private readonly IMapper _mapper;
-		public UserManager(IUnitOfWork uow, IMapper mapper)
+		private readonly IConfiguration _configuration;
+		public UserManager(IUnitOfWork uow, IMapper mapper, IConfiguration configuration)
 		{
 			_uow = uow;
 			_mapper = mapper;
+			_configuration = configuration;
 		}
 
 		public async Task<UserDTOResponse> AddAsync(UserDTORequest entity)
@@ -41,6 +47,7 @@ namespace APITemplate.Business.Concrete
 
 		public async Task DeleteAsync(UserDTORequest entity)
 		{
+			// user'a bağlı rolleri silme
 			var userRoles = await _uow.UserRoleRepository.GetAllAsync(x=>x.UserId == entity.Id);
 			if (userRoles != null)
 			{
@@ -75,16 +82,42 @@ namespace APITemplate.Business.Concrete
 
 		public async Task<LoginDTOResponse> LoginAsync(LoginDTORequest loginDTORequest)
 		{
-			var user = await _uow.UserRepository.GetAsync(x=>x.Email == loginDTORequest.Email && x.Password == loginDTORequest.Password);
+			var user = await _uow.UserRepository.GetAsync(x=>x.Email == loginDTORequest.Email && x.Password == loginDTORequest.Password,"UserRoles.Role");
+			var userResponse = _mapper.Map<LoginDTOResponse>(user);
 			if (user != null)
 			{
-				var userResponse = _mapper.Map<LoginDTOResponse>(user);
-				return userResponse;
+				List<Claim> claims = new List<Claim>()
+				{
+					new Claim(ClaimTypes.Name,userResponse.Name),
+					new Claim(ClaimTypes.Email,userResponse.Email),
+				};
+
+				foreach (var role in userResponse.Roles)
+				{
+					claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
+				}
+
+				var secretKey = _configuration["JWT:Token"];
+				var issuer = _configuration["JWT:Issuer"];
+				var audiance = _configuration["JWT:Audiance"];
+
+				var tokenHandler = new JwtSecurityTokenHandler();
+				var key = Encoding.UTF8.GetBytes(secretKey);
+				var tokenDescriptor = new SecurityTokenDescriptor
+				{
+					Issuer = issuer,
+					Audience = audiance,
+					Subject = new ClaimsIdentity(claims),
+					Expires = DateTime.Now.AddDays(1),
+					NotBefore = DateTime.Now,
+					SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256)
+				};
+
+				var token = tokenHandler.CreateToken(tokenDescriptor);
+				userResponse.Token = tokenHandler.WriteToken(token);
 			}
-			else
-			{
-				throw new Exception("Giriş bilgileri yanlış!");
-			}
+
+			return userResponse;
 		}
 
 		public async Task UpdateAsync(UserDTORequest entity)

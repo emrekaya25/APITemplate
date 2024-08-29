@@ -50,15 +50,28 @@ namespace APITemplate.API.Controllers
 		public async Task<IActionResult> GetAllUsers(UserDTORequest userDTORequest)
 		{
 			var users = await _userService.GetAllAsync(userDTORequest);
-			return Ok(ApiResponse<List<UserDTOResponse>>.SuccesWithData(users));
+			if (users != null)
+			{
+				return Ok(ApiResponse<List<UserDTOResponse>>.SuccesWithData(users));
+			}
+			else
+			{
+				return NotFound(ApiResponse<List<UserDTOResponse>>.SuccesNoDataFound("Bir sorun oluştu.."));
+			}
 		}
 
 		[HttpPost("/api/Login")]
 		public async Task<IActionResult> Login(LoginDTORequest loginDTORequest)
 		{
 			var user = await _userService.LoginAsync(loginDTORequest);
-			//if(user) --> token kodları
-			return Ok(ApiResponse<LoginDTOResponse>.SuccesWithData(user));
+			if (user != null)
+			{
+				return Ok(ApiResponse<LoginDTOResponse>.SuccesWithData(user));
+			}
+			else
+			{
+				return NotFound(ApiResponse<LoginDTOResponse>.SuccesNoDataFound("Kullanıcı adı veya şifre yanlış."));
+			}
 		}
 	}
 }
