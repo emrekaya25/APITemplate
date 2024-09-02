@@ -1,7 +1,9 @@
 ﻿using APITemplate.Business.Abstract;
+using APITemplate.Business.Validation.UserValidator;
 using APITemplate.Entity.DTO.LoginDTO;
 using APITemplate.Entity.DTO.UserDTO;
 using APITemplate.Tools.Result;
+using APITemplate.Tools.Utilities.Attributes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +21,7 @@ namespace APITemplate.API.Controllers
 		}
 
 		[HttpPost("/api/AddUser")]
+		[ValidationFilter(typeof(UserValidation))]
 		public async Task<IActionResult> AddUser(UserDTORequest userDTORequest)
 		{
 			var user = await _userService.AddAsync(userDTORequest);
@@ -43,7 +46,14 @@ namespace APITemplate.API.Controllers
 		public async Task<IActionResult> GetUser(UserDTORequest userDTORequest)
 		{
 			var user = await _userService.GetAsync(userDTORequest);
-			return Ok(ApiResponse<UserDTOResponse>.SuccesWithData(user));
+			if (user != null)
+			{
+				return Ok(ApiResponse<UserDTOResponse>.SuccesWithData(user));
+			}
+			else
+			{
+				return NotFound(ApiResponse<UserDTOResponse>.SuccesNoDataFound("Veri bulunamadı.."));
+			}
 		}
 
 		[HttpPost("/api/GetAllUsers")]
@@ -56,7 +66,7 @@ namespace APITemplate.API.Controllers
 			}
 			else
 			{
-				return NotFound(ApiResponse<List<UserDTOResponse>>.SuccesNoDataFound("Bir sorun oluştu.."));
+				return NotFound(ApiResponse<List<UserDTOResponse>>.SuccesNoDataFound("Veri bulunamadı.."));
 			}
 		}
 

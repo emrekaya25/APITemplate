@@ -1,8 +1,10 @@
+using APITemplate.API.Middleware;
 using APITemplate.Business.Abstract;
 using APITemplate.Business.Concrete;
 using APITemplate.DataAccess.Abstract.DataManagement;
 using APITemplate.DataAccess.Concrete.Context;
 using APITemplate.DataAccess.Concrete.DataManagement;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,8 @@ builder.Services.AddScoped<IUserService, UserManager>();
 builder.Services.AddScoped<IUserRoleService, UserRoleManager>();
 builder.Services.AddScoped<IRoleService, RoleManager>();
 
+builder.Services.AddFluentValidationAutoValidation();
+
 
 var app = builder.Build();
 
@@ -32,6 +36,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseGlobalExceptionMiddleware();
 
 app.UseAuthorization();
 

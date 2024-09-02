@@ -1,8 +1,10 @@
 ﻿using APITemplate.Business.Abstract;
+using APITemplate.Business.Validation.UserValidator;
 using APITemplate.DataAccess.Abstract.DataManagement;
 using APITemplate.Entity.DTO.LoginDTO;
 using APITemplate.Entity.DTO.UserDTO;
 using APITemplate.Entity.Poco;
+using APITemplate.Tools.Utilities.Attributes;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -28,6 +30,7 @@ namespace APITemplate.Business.Concrete
 			_configuration = configuration;
 		}
 
+		[ValidationFilter(typeof(UserValidation))]
 		public async Task<UserDTOResponse> AddAsync(UserDTORequest entity)
 		{
 			var user = _mapper.Map<User>(entity);
@@ -64,12 +67,25 @@ namespace APITemplate.Business.Concrete
 
 		public async Task<List<UserDTOResponse>> GetAllAsync(UserDTORequest entity)
 		{
-			var users = await _uow.UserRepository.GetAllAsync(x=>true,"UserRoles.Role");
+			//filtreleme
+
+			var users = await _uow.UserRepository.GetAllAsync(x => true, "UserRoles.Role");
 			List<UserDTOResponse> userDTOResponses = new();
-			foreach (var user in users)
+
+			if (!entity.Name.Contains("string"))
 			{
-				userDTOResponses.Add(_mapper.Map<UserDTOResponse>(user));
+				users = users.Where(x=>x.Name == entity.Name);
 			}
+			if(!entity.LastName.Contains("string"))
+			{
+				users = users.Where(x => x.LastName == entity.LastName);
+			}
+			if (!entity.Email.Contains("string"))
+			{
+				users = users.Where(x => x.Email == entity.Email);
+			}
+			userDTOResponses = users.Select(x => _mapper.Map<UserDTOResponse>(x)).ToList();
+
 			return userDTOResponses;
 		}
 
@@ -80,9 +96,20 @@ namespace APITemplate.Business.Concrete
 			return userResponse;
 		}
 
+		[ValidationFilter(typeof(UserValidation))]
+		public async Task UpdateAsync(UserDTORequest entity)
+		{
+			var user = await _uow.UserRepository.GetAsync(x=>x.Id == entity.Id);
+			user = _mapper.Map(entity,user);
+
+			await _uow.UserRepository.UpdateAsync(user);
+			await _uow.SaveChangesAsync();
+		}
+
+		//Login
 		public async Task<LoginDTOResponse> LoginAsync(LoginDTORequest loginDTORequest)
 		{
-			var user = await _uow.UserRepository.GetAsync(x=>x.Email == loginDTORequest.Email && x.Password == loginDTORequest.Password,"UserRoles.Role");
+			var user = await _uow.UserRepository.GetAsync(x => x.Email == loginDTORequest.Email && x.Password == loginDTORequest.Password, "UserRoles.Role");
 			var userResponse = _mapper.Map<LoginDTOResponse>(user);
 			if (user != null)
 			{
@@ -110,7 +137,7 @@ namespace APITemplate.Business.Concrete
 					Subject = new ClaimsIdentity(claims),
 					Expires = DateTime.Now.AddDays(1),
 					NotBefore = DateTime.Now,
-					SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256)
+					SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
 				};
 
 				var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -118,15 +145,6 @@ namespace APITemplate.Business.Concrete
 			}
 
 			return userResponse;
-		}
-
-		public async Task UpdateAsync(UserDTORequest entity)
-		{
-			var user = await _uow.UserRepository.GetAsync(x=>x.Id == entity.Id);
-			user = _mapper.Map(entity,user);
-
-			await _uow.UserRepository.UpdateAsync(user);
-			await _uow.SaveChangesAsync();
 		}
 	}
 }
