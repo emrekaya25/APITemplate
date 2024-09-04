@@ -38,9 +38,12 @@ namespace APITemplate.Tools.Utilities.Logging
 			// Aksiyon metodunu çağır
 			var executedContext = await next();
 
-			// Dönen verileri loglama
-			var result = executedContext.Result;
-			Log.Information("Content: {Content}", GetResultContent(result));
+			if (!actionMethodName.StartsWith("Get"))
+			{
+				// Dönen verileri loglama
+				var result = executedContext.Result;
+				Log.Information("Content: {Content}", GetResultContent(result));
+			}
 		}
 
 		public async Task OnActionExecutedAsync(ActionExecutedContext context)

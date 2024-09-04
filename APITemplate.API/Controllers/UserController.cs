@@ -38,8 +38,8 @@ namespace APITemplate.API.Controllers
 		[ValidationFilter(typeof(UserValidation))]
 		public async Task<IActionResult> UpdateUser(UserDTORequest userDTORequest)
 		{
-			await _userService.UpdateAsync(userDTORequest);
-			return Ok(ApiResponse<UserDTOResponse>.SuccesWithOutData());
+			var user = await _userService.UpdateAsync(userDTORequest);
+			return Ok(ApiResponse<UserDTOResponse>.SuccesWithData(user));
 		}
 
 		[FileLogger("Kullanıcı Silindi.")]
@@ -64,6 +64,7 @@ namespace APITemplate.API.Controllers
 				return NotFound(ApiResponse<UserDTOResponse>.SuccesNoDataFound("Veri bulunamadı.."));
 			}
 		}
+
 		[FileLogger("Tüm Kullanıcılar Getirildi.")]
 		[HttpPost("/api/GetAllUsers")]
 		public async Task<IActionResult> GetAllUsers(UserDTORequest userDTORequest)

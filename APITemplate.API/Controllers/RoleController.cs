@@ -31,16 +31,16 @@ namespace APITemplate.API.Controllers
 		[HttpPost("/api/DeleteRole")]
 		public async Task<IActionResult> DeleteRole(RoleDTORequest roleDTORequest)
 		{
-			await _roleService.DeleteAsync(roleDTORequest);
-			return Ok(ApiResponse<RoleDTOResponse>.SuccesWithOutData());
+			var role = await _roleService.DeleteAsync(roleDTORequest);
+			return Ok(ApiResponse<RoleDTOResponse>.SuccesWithData(role));
 		}
 		[FileLogger("Rol Güncellendi.")]
 		[HttpPost("/api/UpdateRole")]
 		[ValidationFilter(typeof(RoleValidation))]
 		public async Task<IActionResult> UpdateRole(RoleDTORequest roleDTORequest)
 		{
-			await _roleService.UpdateAsync(roleDTORequest);
-			return Ok(ApiResponse<RoleDTOResponse>.SuccesWithOutData());
+			var role = await _roleService.UpdateAsync(roleDTORequest);
+			return Ok(ApiResponse<RoleDTOResponse>.SuccesWithData(role));
 		}
 		[FileLogger("Seçili Rol Getirildi.")]
 		[HttpPost("/api/GetRole")]

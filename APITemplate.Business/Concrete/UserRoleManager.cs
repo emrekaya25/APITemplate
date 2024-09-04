@@ -25,7 +25,6 @@ namespace APITemplate.Business.Concrete
 			_uow = uow;
 		}
 
-		[ValidationFilter(typeof(UserRoleValidation))]
 		public async Task<UserRoleDTOResponse> AddAsync(UserRoleDTORequest entity)
 		{
 			var userRole = _mapper.Map<UserRole>(entity);
@@ -36,7 +35,6 @@ namespace APITemplate.Business.Concrete
 			return userRoleResponse;
 		}
 
-		[ValidationFilter(typeof(UserRoleValidation))]
 		public async Task<UserRoleDTOResponse> DeleteAsync(UserRoleDTORequest entity)
 		{
 			var userRole = _mapper.Map<UserRole>(entity);
@@ -47,7 +45,6 @@ namespace APITemplate.Business.Concrete
 			return userRoleResponse;
 		}
 
-		[ValidationFilter(typeof(UserRoleValidation))]
 		public async Task<List<UserRoleDTOResponse>> GetAllAsync(UserRoleDTORequest entity)
 		{
 			var userRoles = await _uow.UserRoleRepository.GetAllAsync(x=>true);
@@ -59,7 +56,6 @@ namespace APITemplate.Business.Concrete
 			return userRoleDTOResponses;
 		}
 
-		[ValidationFilter(typeof(UserRoleValidation))]
 		public async Task<UserRoleDTOResponse> GetAsync(UserRoleDTORequest entity)
 		{
 			var userRole = await _uow.UserRoleRepository.GetAsync(x=>x.Id == entity.Id);
@@ -67,7 +63,6 @@ namespace APITemplate.Business.Concrete
 			return userRoleResponse;
 		}
 
-		[ValidationFilter(typeof(UserRoleValidation))]
 		public async Task<UserRoleDTOResponse> UpdateAsync(UserRoleDTORequest entity)
 		{
 			var userRole = await _uow.UserRoleRepository.GetAsync(x=>x.Id == entity.Id);

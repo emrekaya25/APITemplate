@@ -4,6 +4,7 @@ using APITemplate.DataAccess.Abstract.DataManagement;
 using APITemplate.Entity.DTO.RoleDTO;
 using APITemplate.Entity.Poco;
 using APITemplate.Tools.Utilities.Attributes;
+using APITemplate.Tools.Utilities.Logging;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,6 @@ namespace APITemplate.Business.Concrete
 			_mapper = mapper;
 			_uow = uow;
 		}
-
-		[ValidationFilter(typeof(RoleValidation))]
 		public async Task<RoleDTOResponse> AddAsync(RoleDTORequest entity)
 		{
 			var role = _mapper.Map<Role>(entity);
@@ -35,7 +34,6 @@ namespace APITemplate.Business.Concrete
 			return roleDTOResponse;
 		}
 
-		[ValidationFilter(typeof(RoleValidation))]
 		public async Task<RoleDTOResponse> DeleteAsync(RoleDTORequest entity)
 		{
 			var role = _mapper.Map<Role>(entity);
@@ -46,7 +44,6 @@ namespace APITemplate.Business.Concrete
 			return roleResponse;
 		}
 
-		[ValidationFilter(typeof(RoleValidation))]
 		public async Task<List<RoleDTOResponse>> GetAllAsync(RoleDTORequest entity)
 		{
 			var roles = await _uow.RoleRepository.GetAllAsync(x => true);
@@ -61,7 +58,6 @@ namespace APITemplate.Business.Concrete
 			return roleDTOResponses;
 		}
 
-		[ValidationFilter(typeof(RoleValidation))]
 		public async Task<RoleDTOResponse> GetAsync(RoleDTORequest entity)
 		{
 			var role = await _uow.RoleRepository.GetAsync(x => x.Id == entity.Id);
@@ -69,7 +65,6 @@ namespace APITemplate.Business.Concrete
 			return roleResponse;
 		}
 
-		[ValidationFilter(typeof(RoleValidation))]
 		public async Task<RoleDTOResponse> UpdateAsync(RoleDTORequest entity)
 		{
 			var role = await _uow.RoleRepository.GetAsync(x => x.Id == entity.Id);

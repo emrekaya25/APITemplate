@@ -31,7 +31,6 @@ namespace APITemplate.Business.Concrete
 			_configuration = configuration;
 		}
 
-		[ValidationFilter(typeof(UserValidation))]
 		public async Task<UserDTOResponse> AddAsync(UserDTORequest entity)
 		{
 			var user = _mapper.Map<User>(entity);
@@ -100,7 +99,6 @@ namespace APITemplate.Business.Concrete
 			return userResponse;
 		}
 
-		[ValidationFilter(typeof(UserValidation))]
 		public async Task<UserDTOResponse> UpdateAsync(UserDTORequest entity)
 		{
 			var user = await _uow.UserRepository.GetAsync(x=>x.Id == entity.Id);

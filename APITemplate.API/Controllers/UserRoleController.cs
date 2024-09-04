@@ -32,8 +32,8 @@ namespace APITemplate.API.Controllers
 		[HttpPost("/api/DeleteUserRole")]
 		public async Task<IActionResult> DeleteUserRole(UserRoleDTORequest userRoleDTORequest)
 		{
-			await _userRoleService.DeleteAsync(userRoleDTORequest);
-			return Ok(ApiResponse<UserRoleDTOResponse>.SuccesWithOutData());
+			var userRole = await _userRoleService.DeleteAsync(userRoleDTORequest);
+			return Ok(ApiResponse<UserRoleDTOResponse>.SuccesWithData(userRole));
 		}
 
 		[FileLogger("Kullanıcı-Rol Güncellendi.")]
@@ -41,8 +41,8 @@ namespace APITemplate.API.Controllers
 		[ValidationFilter(typeof(UserRoleValidation))]
 		public async Task<IActionResult> UpdateUserRole(UserRoleDTORequest userRoleDTORequest)
 		{
-			await _userRoleService.UpdateAsync(userRoleDTORequest);
-			return Ok(ApiResponse<UserRoleDTOResponse>.SuccesWithOutData());
+			var userRole = await _userRoleService.UpdateAsync(userRoleDTORequest);
+			return Ok(ApiResponse<UserRoleDTOResponse>.SuccesWithData(userRole));
 		}
 
 		[FileLogger("Seçili Kullanıcı-Rol Getirildi.")]
