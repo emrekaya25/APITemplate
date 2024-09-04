@@ -1,6 +1,9 @@
 ﻿using APITemplate.Business.Abstract;
+using APITemplate.Business.Validation.UserRoleValidator;
 using APITemplate.Entity.DTO.UserRoleDTO;
 using APITemplate.Tools.Result;
+using APITemplate.Tools.Utilities.Attributes;
+using APITemplate.Tools.Utilities.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,14 +19,16 @@ namespace APITemplate.API.Controllers
 		{
 			_userRoleService = userRoleService;
 		}
-
+		[FileLogger("Kullanıcı-Rol Eklendi.")]
 		[HttpPost("/api/AddUserRole")]
+		[ValidationFilter(typeof(UserRoleValidation))]
 		public async Task<IActionResult> AddUserRole(UserRoleDTORequest userRoleDTORequest)
 		{
 			var userRole = await _userRoleService.AddAsync(userRoleDTORequest);
 			return Ok(ApiResponse<UserRoleDTOResponse>.SuccesWithData(userRole));
 		}
 
+		[FileLogger("Kullanıcı-Rol Silindi.")]
 		[HttpPost("/api/DeleteUserRole")]
 		public async Task<IActionResult> DeleteUserRole(UserRoleDTORequest userRoleDTORequest)
 		{
@@ -31,13 +36,16 @@ namespace APITemplate.API.Controllers
 			return Ok(ApiResponse<UserRoleDTOResponse>.SuccesWithOutData());
 		}
 
+		[FileLogger("Kullanıcı-Rol Güncellendi.")]
 		[HttpPost("/api/UpdateUserRole")]
+		[ValidationFilter(typeof(UserRoleValidation))]
 		public async Task<IActionResult> UpdateUserRole(UserRoleDTORequest userRoleDTORequest)
 		{
 			await _userRoleService.UpdateAsync(userRoleDTORequest);
 			return Ok(ApiResponse<UserRoleDTOResponse>.SuccesWithOutData());
 		}
 
+		[FileLogger("Seçili Kullanıcı-Rol Getirildi.")]
 		[HttpPost("/api/GetUserRole")]
 		public async Task<IActionResult> GetUserRole(UserRoleDTORequest userRoleDTORequest)
 		{
@@ -45,6 +53,7 @@ namespace APITemplate.API.Controllers
 			return Ok(ApiResponse<UserRoleDTOResponse>.SuccesWithData(userRole));
 		}
 
+		[FileLogger("Tüm Kullanıcı-Roller Getirildi.")]
 		[HttpPost("/api/GetAllUserRoles")]
 		public async Task<IActionResult> GetAllUserRoles(UserRoleDTORequest userRoleDTORequest)
 		{

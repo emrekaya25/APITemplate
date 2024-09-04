@@ -7,6 +7,7 @@ using APITemplate.Entity.Poco;
 using APITemplate.Tools.Utilities.Attributes;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -48,7 +49,7 @@ namespace APITemplate.Business.Concrete
 			return userResponse;
 		}
 
-		public async Task DeleteAsync(UserDTORequest entity)
+		public async Task<UserDTOResponse> DeleteAsync(UserDTORequest entity)
 		{
 			// user'a bağlı rolleri silme
 			var userRoles = await _uow.UserRoleRepository.GetAllAsync(x=>x.UserId == entity.Id);
@@ -63,6 +64,9 @@ namespace APITemplate.Business.Concrete
 			var user = _mapper.Map<User>(entity);
 			await _uow.UserRepository.DeleteAsync(user);
 			await _uow.SaveChangesAsync();
+
+			var userResponse = _mapper.Map<UserDTOResponse>(user);
+			return userResponse;
 		}
 
 		public async Task<List<UserDTOResponse>> GetAllAsync(UserDTORequest entity)
@@ -97,13 +101,16 @@ namespace APITemplate.Business.Concrete
 		}
 
 		[ValidationFilter(typeof(UserValidation))]
-		public async Task UpdateAsync(UserDTORequest entity)
+		public async Task<UserDTOResponse> UpdateAsync(UserDTORequest entity)
 		{
 			var user = await _uow.UserRepository.GetAsync(x=>x.Id == entity.Id);
 			user = _mapper.Map(entity,user);
 
 			await _uow.UserRepository.UpdateAsync(user);
 			await _uow.SaveChangesAsync();
+
+			var userResponse = _mapper.Map<UserDTOResponse>(user);
+			return userResponse;
 		}
 
 		//Login
@@ -117,6 +124,7 @@ namespace APITemplate.Business.Concrete
 				{
 					new Claim(ClaimTypes.Name,userResponse.Name),
 					new Claim(ClaimTypes.Email,userResponse.Email),
+					new Claim("UserId",userResponse.Id.ToString()),
 				};
 
 				foreach (var role in userResponse.Roles)

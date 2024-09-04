@@ -36,22 +36,25 @@ namespace APITemplate.Business.Concrete
 		}
 
 		[ValidationFilter(typeof(RoleValidation))]
-		public async Task DeleteAsync(RoleDTORequest entity)
+		public async Task<RoleDTOResponse> DeleteAsync(RoleDTORequest entity)
 		{
 			var role = _mapper.Map<Role>(entity);
 			await _uow.RoleRepository.DeleteAsync(role);
 			await _uow.SaveChangesAsync();
+
+			var roleResponse = _mapper.Map<RoleDTOResponse>(role);
+			return roleResponse;
 		}
 
 		[ValidationFilter(typeof(RoleValidation))]
 		public async Task<List<RoleDTOResponse>> GetAllAsync(RoleDTORequest entity)
 		{
-			var roles = await _uow.RoleRepository.GetAllAsync(x=>true);
+			var roles = await _uow.RoleRepository.GetAllAsync(x => true);
 			List<RoleDTOResponse> roleDTOResponses = new();
 
 			if (!entity.Name.Contains("string"))
 			{
-				roles = roles.Where(x=>x.Name == entity.Name);
+				roles = roles.Where(x => x.Name == entity.Name);
 			}
 			roleDTOResponses = roleDTOResponses.Select(x => _mapper.Map<RoleDTOResponse>(x)).ToList();
 
@@ -61,18 +64,21 @@ namespace APITemplate.Business.Concrete
 		[ValidationFilter(typeof(RoleValidation))]
 		public async Task<RoleDTOResponse> GetAsync(RoleDTORequest entity)
 		{
-			var role = await _uow.RoleRepository.GetAsync(x=>x.Id == entity.Id);
+			var role = await _uow.RoleRepository.GetAsync(x => x.Id == entity.Id);
 			var roleResponse = _mapper.Map<RoleDTOResponse>(role);
 			return roleResponse;
 		}
 
 		[ValidationFilter(typeof(RoleValidation))]
-		public async Task UpdateAsync(RoleDTORequest entity)
+		public async Task<RoleDTOResponse> UpdateAsync(RoleDTORequest entity)
 		{
-			var role = await _uow.RoleRepository.GetAsync(x=>x.Id == entity.Id);
-			role = _mapper.Map(entity,role);
+			var role = await _uow.RoleRepository.GetAsync(x => x.Id == entity.Id);
+			role = _mapper.Map(entity, role);
 			await _uow.RoleRepository.UpdateAsync(role);
 			await _uow.SaveChangesAsync();
+
+			var roleResponse = _mapper.Map<RoleDTOResponse>(role);
+			return roleResponse;
 		}
 	}
 }
