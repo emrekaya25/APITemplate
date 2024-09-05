@@ -4,6 +4,7 @@ using APITemplate.Entity.DTO.UserRoleDTO;
 using APITemplate.Tools.Result;
 using APITemplate.Tools.Utilities.Attributes;
 using APITemplate.Tools.Utilities.Logging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace APITemplate.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize(Roles = "Admin")]
 	public class UserRoleController : ControllerBase
 	{
 		private readonly IUserRoleService _userRoleService;
