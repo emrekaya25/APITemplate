@@ -36,7 +36,7 @@ namespace APITemplate.API.Middleware
 
 					httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 					httpContext.Response.ContentType = "application/json";
-					await httpContext.Response.WriteAsJsonAsync(ApiResponse<FieldValidationException>.FieldValdationError(errors), new JsonSerializerOptions()
+					await httpContext.Response.WriteAsJsonAsync(ApiResponse<FieldValidationException>.FieldValidationError(errors), new JsonSerializerOptions()
 					{
 						PropertyNamingPolicy = null
 					});

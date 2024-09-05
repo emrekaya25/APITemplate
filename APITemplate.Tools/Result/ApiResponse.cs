@@ -57,7 +57,7 @@ namespace APITemplate.Tools.Result
 		{
 			return new ApiResponse<T>(message, statusCode, ErrorInformation.NotFound());
 		}
-		public static ApiResponse<T> FieldValdationError(List<string>? errorMessages = null, string message = "Hata Oluştu", int statusCode = (int)HttpStatusCode.BadRequest)
+		public static ApiResponse<T> FieldValidationError(List<string>? errorMessages = null, string message = "Hata Oluştu", int statusCode = (int)HttpStatusCode.BadRequest)
 		{
 			return new ApiResponse<T>(message, statusCode, ErrorInformation.FieldValidationError(errorMessages));
 		}

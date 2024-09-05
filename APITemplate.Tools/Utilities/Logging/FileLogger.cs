@@ -38,7 +38,8 @@ namespace APITemplate.Tools.Utilities.Logging
 			// Aksiyon metodunu çağır
 			var executedContext = await next();
 
-			if (!actionMethodName.StartsWith("Get"))
+			//Tüm verileri dönerken loglamada datayı göstermek istemiyorum.
+			if (!actionMethodName.StartsWith("GetAll"))
 			{
 				// Dönen verileri loglama
 				var result = executedContext.Result;

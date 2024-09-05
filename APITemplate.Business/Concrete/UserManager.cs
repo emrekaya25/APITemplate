@@ -34,6 +34,9 @@ namespace APITemplate.Business.Concrete
 		public async Task<UserDTOResponse> AddAsync(UserDTORequest entity)
 		{
 			var user = _mapper.Map<User>(entity);
+			user.Name = char.ToUpper(user.Name[0]) + user.Name.Substring(1).ToLower();
+			user.LastName = user.LastName.ToUpper();
+
 			await _uow.UserRepository.AddAsync(user);
 			await _uow.SaveChangesAsync();
 

@@ -19,6 +19,7 @@ namespace APITemplate.API.Controllers
 		{
 			_roleService = roleService;
 		}
+
 		[FileLogger("Rol Eklendi.")]
 		[HttpPost("/api/AddRole")]
 		[ValidationFilter(typeof(RoleValidation))]
@@ -27,6 +28,7 @@ namespace APITemplate.API.Controllers
 			var role = await _roleService.AddAsync(roleDTORequest);
 			return Ok(ApiResponse<RoleDTOResponse>.SuccesWithData(role));
 		}
+
 		[FileLogger("Rol Silindi.")]
 		[HttpPost("/api/DeleteRole")]
 		public async Task<IActionResult> DeleteRole(RoleDTORequest roleDTORequest)
@@ -34,6 +36,7 @@ namespace APITemplate.API.Controllers
 			var role = await _roleService.DeleteAsync(roleDTORequest);
 			return Ok(ApiResponse<RoleDTOResponse>.SuccesWithData(role));
 		}
+
 		[FileLogger("Rol Güncellendi.")]
 		[HttpPost("/api/UpdateRole")]
 		[ValidationFilter(typeof(RoleValidation))]
@@ -42,6 +45,7 @@ namespace APITemplate.API.Controllers
 			var role = await _roleService.UpdateAsync(roleDTORequest);
 			return Ok(ApiResponse<RoleDTOResponse>.SuccesWithData(role));
 		}
+
 		[FileLogger("Seçili Rol Getirildi.")]
 		[HttpPost("/api/GetRole")]
 		public async Task<IActionResult> GetRole(RoleDTORequest roleDTORequest)
