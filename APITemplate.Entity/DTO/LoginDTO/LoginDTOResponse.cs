@@ -14,6 +14,7 @@ namespace APITemplate.Entity.DTO.LoginDTO
 		public string Name { get; set; }
 		public string LastName { get; set; }
 		public string Email { get; set; }
+		public string Image { get; set; }
 		public List<UserRoleDTOResponse> Roles { get; set; }
 		public string Token { get; set; }
 	}

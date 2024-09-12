@@ -46,14 +46,14 @@ namespace APITemplate.Business.Concrete
 
 		public async Task<List<RoleDTOResponse>> GetAllAsync(RoleDTORequest entity)
 		{
-			var roles = await _uow.RoleRepository.GetAllAsync(x => true);
+			var roles = await _uow.RoleRepository.GetAllAsync(x => true,"UserRoles.User");
 			List<RoleDTOResponse> roleDTOResponses = new();
 
 			if (!entity.Name.Contains("string"))
 			{
 				roles = roles.Where(x => x.Name == entity.Name);
 			}
-			roleDTOResponses = roleDTOResponses.Select(x => _mapper.Map<RoleDTOResponse>(x)).ToList();
+			roleDTOResponses = roles.Select(x => _mapper.Map<RoleDTOResponse>(x)).ToList();
 
 			return roleDTOResponses;
 		}

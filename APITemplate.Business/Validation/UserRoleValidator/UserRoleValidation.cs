@@ -13,7 +13,6 @@ namespace APITemplate.Business.Validation.UserRoleValidator
 	{
         public UserRoleValidation()
         {
-            RuleFor(x=>x.UserId).NotEmpty().WithMessage("Kullanıcı bilgisi girilmeli !");
             RuleFor(x=>x.RoleId).NotEmpty().WithMessage("Rol bilgisi girilmeli !");
         }
     }
