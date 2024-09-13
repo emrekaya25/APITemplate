@@ -41,11 +41,11 @@ namespace APITemplate.Business.Concrete
 			await _uow.SaveChangesAsync();
 
 			//default role ekleme
-			UserRole userRole = new UserRole();
-			userRole.UserId = user.Id;
-			userRole.RoleId = 2;
-			await _uow.UserRoleRepository.AddAsync(userRole);
-			await _uow.SaveChangesAsync();
+			//UserRole userRole = new UserRole();
+			//userRole.UserId = user.Id;
+			//userRole.RoleId = 2;
+			//await _uow.UserRoleRepository.AddAsync(userRole);
+			//await _uow.SaveChangesAsync();
 
 			var userResponse = _mapper.Map<UserDTOResponse>(user);
 			return userResponse;
@@ -104,7 +104,25 @@ namespace APITemplate.Business.Concrete
 
 		public async Task<UserDTOResponse> UpdateAsync(UserDTORequest entity)
 		{
-			var user = await _uow.UserRepository.GetAsync(x=>x.Id == entity.Id);
+			var user = await _uow.UserRepository.GetAsync(x => x.Id == entity.Id);
+			if (entity.Image == null) //güncellemede fotoğraf eklememişse eski fotoğraf eklenir.
+			{
+				entity.Image = user.Image;
+			}
+
+			if (entity.UserRoles.Count >= 0) // güncellemede önceki tüm userRole bilgilerini siliyorum.
+			{
+				var userRoles = await _uow.UserRoleRepository.GetAllAsync(x=>x.UserId == entity.Id);
+				if (userRoles != null)
+				{
+                    foreach (var userRole in userRoles)
+                    {
+                        await _uow.UserRoleRepository.DeleteAsync(userRole);
+                    }
+                    await _uow.SaveChangesAsync();
+				}
+			}
+
 			user = _mapper.Map(entity,user);
 
 			await _uow.UserRepository.UpdateAsync(user);

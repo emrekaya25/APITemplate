@@ -39,7 +39,7 @@ namespace APITemplate.DataAccess.Migrations
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AddedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
@@ -81,19 +81,19 @@ namespace APITemplate.DataAccess.Migrations
                 columns: new[] { "Id", "AddedTime", "IsActive", "Name", "UpdatedTime" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 8, 28, 10, 41, 19, 269, DateTimeKind.Utc).AddTicks(693), true, "Admin", new DateTime(2024, 8, 28, 10, 41, 19, 269, DateTimeKind.Utc).AddTicks(694) },
-                    { 2, new DateTime(2024, 8, 28, 10, 41, 19, 269, DateTimeKind.Utc).AddTicks(696), true, "Çalışan", new DateTime(2024, 8, 28, 10, 41, 19, 269, DateTimeKind.Utc).AddTicks(697) }
+                    { 1, new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9636), true, "Admin", new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9637) },
+                    { 2, new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9639), true, "Çalışan", new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9640) }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "AddedTime", "Email", "Image", "IsActive", "LastName", "Name", "Password", "UpdatedTime" },
-                values: new object[] { 1, new DateTime(2024, 8, 28, 13, 41, 19, 268, DateTimeKind.Local).AddTicks(9747), "admin@gmail.com", "string", true, "Admin", "Admin", "123", new DateTime(2024, 8, 28, 13, 41, 19, 268, DateTimeKind.Local).AddTicks(9760) });
+                values: new object[] { 1, new DateTime(2024, 9, 13, 14, 41, 50, 66, DateTimeKind.Local).AddTicks(8678), "admin@gmail.com", "string", true, "Admin", "Admin", "123", new DateTime(2024, 9, 13, 14, 41, 50, 66, DateTimeKind.Local).AddTicks(8690) });
 
             migrationBuilder.InsertData(
                 table: "UserRole",
                 columns: new[] { "Id", "AddedTime", "IsActive", "RoleId", "UpdatedTime", "UserId" },
-                values: new object[] { 1, new DateTime(2024, 8, 28, 13, 41, 19, 269, DateTimeKind.Local).AddTicks(3344), true, 1, new DateTime(2024, 8, 28, 13, 41, 19, 269, DateTimeKind.Local).AddTicks(3348), 1 });
+                values: new object[] { 1, new DateTime(2024, 9, 13, 14, 41, 50, 67, DateTimeKind.Local).AddTicks(2388), true, 1, new DateTime(2024, 9, 13, 14, 41, 50, 67, DateTimeKind.Local).AddTicks(2390), 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRole_RoleId",

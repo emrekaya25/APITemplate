@@ -52,18 +52,18 @@ namespace APITemplate.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            AddedTime = new DateTime(2024, 8, 28, 10, 41, 19, 269, DateTimeKind.Utc).AddTicks(693),
+                            AddedTime = new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9636),
                             IsActive = true,
                             Name = "Admin",
-                            UpdatedTime = new DateTime(2024, 8, 28, 10, 41, 19, 269, DateTimeKind.Utc).AddTicks(694)
+                            UpdatedTime = new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9637)
                         },
                         new
                         {
                             Id = 2,
-                            AddedTime = new DateTime(2024, 8, 28, 10, 41, 19, 269, DateTimeKind.Utc).AddTicks(696),
+                            AddedTime = new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9639),
                             IsActive = true,
                             Name = "Çalışan",
-                            UpdatedTime = new DateTime(2024, 8, 28, 10, 41, 19, 269, DateTimeKind.Utc).AddTicks(697)
+                            UpdatedTime = new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9640)
                         });
                 });
 
@@ -84,7 +84,6 @@ namespace APITemplate.DataAccess.Migrations
                         .HasColumnType("nvarchar(70)");
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -115,14 +114,14 @@ namespace APITemplate.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            AddedTime = new DateTime(2024, 8, 28, 13, 41, 19, 268, DateTimeKind.Local).AddTicks(9747),
+                            AddedTime = new DateTime(2024, 9, 13, 14, 41, 50, 66, DateTimeKind.Local).AddTicks(8678),
                             Email = "admin@gmail.com",
                             Image = "string",
                             IsActive = true,
                             LastName = "Admin",
                             Name = "Admin",
                             Password = "123",
-                            UpdatedTime = new DateTime(2024, 8, 28, 13, 41, 19, 268, DateTimeKind.Local).AddTicks(9760)
+                            UpdatedTime = new DateTime(2024, 9, 13, 14, 41, 50, 66, DateTimeKind.Local).AddTicks(8690)
                         });
                 });
 
@@ -161,10 +160,10 @@ namespace APITemplate.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            AddedTime = new DateTime(2024, 8, 28, 13, 41, 19, 269, DateTimeKind.Local).AddTicks(3344),
+                            AddedTime = new DateTime(2024, 9, 13, 14, 41, 50, 67, DateTimeKind.Local).AddTicks(2388),
                             IsActive = true,
                             RoleId = 1,
-                            UpdatedTime = new DateTime(2024, 8, 28, 13, 41, 19, 269, DateTimeKind.Local).AddTicks(3348),
+                            UpdatedTime = new DateTime(2024, 9, 13, 14, 41, 50, 67, DateTimeKind.Local).AddTicks(2390),
                             UserId = 1
                         });
                 });
