@@ -15,7 +15,7 @@ namespace APITemplate.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	//[Authorize(Roles = "Admin")]
+	[AllowAnonymous]
 	public class UserController : ControllerBase
 	{
 		private readonly IUserService _userService;

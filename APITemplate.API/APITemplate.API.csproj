@@ -24,8 +24,4 @@
     <ProjectReference Include="..\APITemplate.Tools\APITemplate.Tools.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="logs\" />
-  </ItemGroup>
-
 </Project>

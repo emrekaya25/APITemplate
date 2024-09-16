@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -34,10 +35,12 @@ namespace APITemplate.Business.Concrete
 		public async Task<UserDTOResponse> AddAsync(UserDTORequest entity)
 		{
 			var user = _mapper.Map<User>(entity);
-			user.Name = char.ToUpper(user.Name[0]) + user.Name.Substring(1).ToLower();
-			user.LastName = user.LastName.ToUpper();
+            // Name'in ilk harfini büyük yapma
+            user.Name = char.ToUpper(user.Name[0], CultureInfo.CurrentCulture) + user.Name.Substring(1).ToLower();
+            // LastName'i Türkçe kültüre göre büyük harfe çevirme
+            user.LastName = user.LastName.ToUpper(new CultureInfo("tr-TR", false));
 
-			await _uow.UserRepository.AddAsync(user);
+            await _uow.UserRepository.AddAsync(user);
 			await _uow.SaveChangesAsync();
 
 			//default role ekleme

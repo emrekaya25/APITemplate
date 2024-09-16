@@ -21,10 +21,9 @@ namespace APITemplate.API.Controllers
 		{
 			_roleService = roleService;
 		}
-
+		[ValidationFilter(typeof(RoleValidation))]
 		[FileLogger("Rol Eklendi.")]
 		[HttpPost("/api/AddRole")]
-		[ValidationFilter(typeof(RoleValidation))]
 		public async Task<IActionResult> AddRole(RoleDTORequest roleDTORequest)
 		{
 			var role = await _roleService.AddAsync(roleDTORequest);

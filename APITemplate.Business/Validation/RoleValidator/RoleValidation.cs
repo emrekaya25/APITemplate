@@ -14,6 +14,7 @@ namespace APITemplate.Business.Validation.RoleValidator
         public RoleValidation()
         {
             RuleFor(x=>x.Name).NotEmpty().WithMessage("Rol ismi boş olamaz !");
+            RuleFor(x => x.Name).MinimumLength(2).WithMessage("Rol ismi iki karakterden büyük olmalıdır !");
         }
     }
 }

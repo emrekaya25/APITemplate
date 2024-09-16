@@ -16,6 +16,7 @@ namespace APITemplate.Business.Validation.UserValidator
             RuleFor(x => x.Name).NotEmpty().WithMessage("İsim boş olamaz !");
             RuleFor(x=>x.Name).MinimumLength(2).WithMessage("İsim iki karakterden fazla olmalıdır !");
             RuleFor(x=>x.Email).NotEmpty().WithMessage("Email boş olamaz !");
+            RuleFor(x=>x.Email).EmailAddress().WithMessage("Geçerli bir email adresi giriniz !");
             RuleFor(x=>x.Password).NotEmpty().WithMessage("Sifre boş olamaz !");
         }
     }

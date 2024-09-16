@@ -8,6 +8,9 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using APITemplate.Entity.Poco;
+using APITemplate.Entity.DTO.UserDTO;
+using APITemplate.Tools.Result;
 
 namespace APITemplate.Tools.Utilities.Logging
 {
@@ -43,7 +46,18 @@ namespace APITemplate.Tools.Utilities.Logging
 			{
 				// Dönen verileri loglama
 				var result = executedContext.Result;
-				Log.Information("Content: {Content}", GetResultContent(result));
+
+				if (result is OkObjectResult objectResult && objectResult.Value is ApiResponse<UserDTOResponse> userDTOResponse)
+				{
+					var image = userDTOResponse.Data.Image;
+					userDTOResponse.Data.Image = null;
+					Log.Information("Content: {Content}", GetResultContent(result));
+					userDTOResponse.Data.Image = image;
+				}
+				else
+				{
+					Log.Information("Content: {Content}", GetResultContent(result));
+				}
 			}
 		}
 

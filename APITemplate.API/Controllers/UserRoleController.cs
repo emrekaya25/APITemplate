@@ -12,7 +12,7 @@ namespace APITemplate.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize(Roles = "Admin")]
+	//[Authorize(Roles = "Admin")]
 	public class UserRoleController : ControllerBase
 	{
 		private readonly IUserRoleService _userRoleService;

@@ -55,6 +55,7 @@ Log.Logger = new LoggerConfiguration()
 	.WriteTo.File("logs/myLog-.txt", rollingInterval: RollingInterval.Day)
 	.CreateLogger();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<APITemplateContext>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -97,6 +98,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseGlobalExceptionMiddleware();
+app.UseCors(options => { options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
 
 app.UseAuthentication();
 app.UseAuthorization();
