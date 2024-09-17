@@ -15,7 +15,7 @@ namespace APITemplate.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[AllowAnonymous]
+	[Authorize(Roles = "Admin")]
 	public class UserController : ControllerBase
 	{
 		private readonly IUserService _userService;
@@ -33,6 +33,7 @@ namespace APITemplate.API.Controllers
 			return Ok(ApiResponse<UserDTOResponse>.SuccesWithData(user));
 		}
 
+		[AllowAnonymous]
 		[FileLogger("Kullanıcı Güncellendi.")]
 		[HttpPost("/api/UpdateUser")]
 		[ValidationFilter(typeof(UserValidation))]
@@ -50,6 +51,7 @@ namespace APITemplate.API.Controllers
 			return Ok(ApiResponse<UserDTOResponse>.SuccesWithData(user));
 		}
 
+		[AllowAnonymous]
 		[FileLogger("Seçili Kullanıcı Getirildi.")]
 		[HttpPost("/api/GetUser")]
 		public async Task<IActionResult> GetUser(UserDTORequest userDTORequest)

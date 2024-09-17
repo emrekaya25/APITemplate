@@ -12,7 +12,6 @@ namespace APITemplate.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	//[Authorize(Roles = "Admin")]
 	public class UserRoleController : ControllerBase
 	{
 		private readonly IUserRoleService _userRoleService;
@@ -55,6 +54,7 @@ namespace APITemplate.API.Controllers
 			return Ok(ApiResponse<UserRoleDTOResponse>.SuccesWithData(userRole));
 		}
 
+		[AllowAnonymous]
 		[FileLogger("Tüm Kullanıcı-Roller Getirildi.")]
 		[HttpPost("/api/GetAllUserRoles")]
 		public async Task<IActionResult> GetAllUserRoles(UserRoleDTORequest userRoleDTORequest)

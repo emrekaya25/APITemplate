@@ -113,7 +113,7 @@ namespace APITemplate.Business.Concrete
 				entity.Image = user.Image;
 			}
 
-			if (entity.UserRoles.Count >= 0) // güncellemede önceki tüm userRole bilgilerini siliyorum.
+			if (entity.UserRoles.Count > 0) // güncellemede önceki tüm userRole bilgilerini siliyorum.
 			{
 				var userRoles = await _uow.UserRoleRepository.GetAllAsync(x=>x.UserId == entity.Id);
 				if (userRoles != null)

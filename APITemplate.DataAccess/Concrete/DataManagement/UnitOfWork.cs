@@ -2,6 +2,7 @@
 using APITemplate.DataAccess.Abstract.DataManagement;
 using APITemplate.DataAccess.Concrete.Context;
 using APITemplate.Entity.Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,15 @@ namespace APITemplate.DataAccess.Concrete.DataManagement
 	public class UnitOfWork : IUnitOfWork
 	{
 		private readonly APITemplateContext _context;
+		private readonly IHttpContextAccessor _accessor;
 
-		public UnitOfWork(APITemplateContext context)
+		public UnitOfWork(APITemplateContext context, IHttpContextAccessor accessor)
 		{
 			_context = context;
 			UserRepository = new EfUserRepository(_context);
 			RoleRepository = new EfRoleRepository(_context);
 			UserRoleRepository = new EfUserRoleRepository(_context);
+			_accessor = accessor;
 		}
 
 		public IUserRepository UserRepository { get; }
@@ -34,8 +37,10 @@ namespace APITemplate.DataAccess.Concrete.DataManagement
 				if (item.State == EntityState.Added)
 				{
 					item.Entity.AddedTime = DateTime.Now;
+					item.Entity.Guid = Guid.NewGuid();
+					item.Entity.AddedIPV4Address = _accessor.HttpContext.Connection.RemoteIpAddress.ToString();
 
-					if (item.Entity.IsActive == false)
+					if (item.Entity.IsActive == null)
 					{
 						item.Entity.IsActive = true;
 					}
@@ -44,6 +49,7 @@ namespace APITemplate.DataAccess.Concrete.DataManagement
 				else if (item.State == EntityState.Modified)
 				{
 					item.Entity.UpdatedTime = DateTime.Now;
+					item.Entity.UpdatedIPV4Address = _accessor.HttpContext.Connection.RemoteIpAddress.ToString();
 				}
 			}
 

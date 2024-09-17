@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json; // Newtonsoft.Json kullanarak JSON dönüşümü
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Linq;
@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using APITemplate.Entity.Poco;
 using APITemplate.Entity.DTO.UserDTO;
 using APITemplate.Tools.Result;
+using APITemplate.Entity.DTO.LoginDTO;
 
 namespace APITemplate.Tools.Utilities.Logging
 {
@@ -56,7 +57,17 @@ namespace APITemplate.Tools.Utilities.Logging
 				}
 				else
 				{
-					Log.Information("Content: {Content}", GetResultContent(result));
+					if (result is OkObjectResult okObjectResult && okObjectResult.Value is ApiResponse<LoginDTOResponse> loginDTOResponse)
+					{
+						var image = loginDTOResponse.Data.Image;
+						loginDTOResponse.Data.Image = null;
+						Log.Information("Content: {Content}", GetResultContent(result));
+						loginDTOResponse.Data.Image = image;
+					}
+					else
+					{
+						Log.Information("Content: {Content}", GetResultContent(result));
+					}
 				}
 			}
 		}

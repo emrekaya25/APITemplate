@@ -12,7 +12,7 @@ namespace APITemplate.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	//[Authorize(Roles = "Admin")]
+	[Authorize(Roles = "Admin")]
 	public class RoleController : ControllerBase
 	{
 		private readonly IRoleService _roleService;
@@ -38,6 +38,7 @@ namespace APITemplate.API.Controllers
 			return Ok(ApiResponse<RoleDTOResponse>.SuccesWithData(role));
 		}
 
+		[AllowAnonymous]
 		[FileLogger("Rol Güncellendi.")]
 		[HttpPost("/api/UpdateRole")]
 		[ValidationFilter(typeof(RoleValidation))]
@@ -55,6 +56,7 @@ namespace APITemplate.API.Controllers
 			return Ok(ApiResponse<RoleDTOResponse>.SuccesWithData(role));
 		}
 
+		[AllowAnonymous]
 		[FileLogger("Tüm Roller Getirildi.")]
 		[HttpPost("/api/GetAllRoles")]
 		public async Task<IActionResult> GetAllRoles(RoleDTORequest roleDTORequest)
