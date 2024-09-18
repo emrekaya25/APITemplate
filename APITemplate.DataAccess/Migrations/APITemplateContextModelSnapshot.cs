@@ -30,8 +30,14 @@ namespace APITemplate.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AddedIPV4Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("AddedTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -40,6 +46,9 @@ namespace APITemplate.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UpdatedIPV4Address")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -52,18 +61,20 @@ namespace APITemplate.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            AddedTime = new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9636),
+                            AddedTime = new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(383),
+                            Guid = new Guid("ffdf1936-5e41-49c8-976f-06568cbf37de"),
                             IsActive = true,
                             Name = "Admin",
-                            UpdatedTime = new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9637)
+                            UpdatedTime = new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(384)
                         },
                         new
                         {
                             Id = 2,
-                            AddedTime = new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9639),
+                            AddedTime = new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(387),
+                            Guid = new Guid("5910b8a6-e4f2-4819-a71b-b6494e514ffa"),
                             IsActive = true,
                             Name = "Çalışan",
-                            UpdatedTime = new DateTime(2024, 9, 13, 11, 41, 50, 66, DateTimeKind.Utc).AddTicks(9640)
+                            UpdatedTime = new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(388)
                         });
                 });
 
@@ -75,6 +86,9 @@ namespace APITemplate.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AddedIPV4Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("AddedTime")
                         .HasColumnType("datetime2");
 
@@ -82,6 +96,9 @@ namespace APITemplate.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(70)
                         .HasColumnType("nvarchar(70)");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -103,6 +120,9 @@ namespace APITemplate.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UpdatedIPV4Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
 
@@ -114,14 +134,15 @@ namespace APITemplate.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            AddedTime = new DateTime(2024, 9, 13, 14, 41, 50, 66, DateTimeKind.Local).AddTicks(8678),
+                            AddedTime = new DateTime(2024, 9, 18, 8, 42, 5, 760, DateTimeKind.Local).AddTicks(9067),
                             Email = "admin@gmail.com",
+                            Guid = new Guid("78bda474-0196-40e9-849c-2ad2ddec3ff8"),
                             Image = "string",
                             IsActive = true,
                             LastName = "Admin",
                             Name = "Admin",
                             Password = "123",
-                            UpdatedTime = new DateTime(2024, 9, 13, 14, 41, 50, 66, DateTimeKind.Local).AddTicks(8690)
+                            UpdatedTime = new DateTime(2024, 9, 18, 8, 42, 5, 760, DateTimeKind.Local).AddTicks(9080)
                         });
                 });
 
@@ -133,14 +154,23 @@ namespace APITemplate.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AddedIPV4Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("AddedTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UpdatedIPV4Address")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -160,10 +190,11 @@ namespace APITemplate.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            AddedTime = new DateTime(2024, 9, 13, 14, 41, 50, 67, DateTimeKind.Local).AddTicks(2388),
+                            AddedTime = new DateTime(2024, 9, 18, 8, 42, 5, 761, DateTimeKind.Local).AddTicks(3877),
+                            Guid = new Guid("19c84e60-1c6f-4a7f-bc9b-cfe20fcdc0b8"),
                             IsActive = true,
                             RoleId = 1,
-                            UpdatedTime = new DateTime(2024, 9, 13, 14, 41, 50, 67, DateTimeKind.Local).AddTicks(2390),
+                            UpdatedTime = new DateTime(2024, 9, 18, 8, 42, 5, 761, DateTimeKind.Local).AddTicks(3881),
                             UserId = 1
                         });
                 });

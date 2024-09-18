@@ -101,6 +101,10 @@ namespace APITemplate.Business.Concrete
 		public async Task<UserDTOResponse> GetAsync(UserDTORequest entity)
 		{
 			var user = await _uow.UserRepository.GetAsync(x=>x.Id == entity.Id, "UserRoles.Role");
+			if (user == null)
+			{
+				user = await _uow.UserRepository.GetAsync(x=>x.Guid == entity.Guid,"UserRoles.Role");
+			}
 			var userResponse = _mapper.Map<UserDTOResponse>(user);
 			return userResponse;
 		}

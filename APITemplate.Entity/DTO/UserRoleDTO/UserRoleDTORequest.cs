@@ -10,7 +10,8 @@ namespace APITemplate.Entity.DTO.UserRoleDTO
 	public class UserRoleDTORequest
 	{
         public int Id { get; set; }
-        public int UserId { get; set; }
+		public Guid Guid { get; set; }
+		public int UserId { get; set; }
 		public int RoleId { get; set; }
 	}
 }

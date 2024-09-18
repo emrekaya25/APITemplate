@@ -9,6 +9,7 @@ namespace APITemplate.Entity.DTO.RoleDTO
 	public class RoleDTORequest
 	{
         public int Id { get; set; }
-        public string Name { get; set; }
+		public Guid Guid { get; set; }
+		public string Name { get; set; }
 	}
 }
