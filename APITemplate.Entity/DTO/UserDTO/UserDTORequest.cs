@@ -17,5 +17,6 @@ namespace APITemplate.Entity.DTO.UserDTO
 		public string Password { get; set; }
 		public string? Image { get; set; }
         public List<UserRoleDTORequest> UserRoles { get; set; }
+
     }
 }

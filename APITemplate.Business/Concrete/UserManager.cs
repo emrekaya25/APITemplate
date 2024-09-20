@@ -40,6 +40,9 @@ namespace APITemplate.Business.Concrete
             // LastName'i Türkçe kültüre göre büyük harfe çevirme
             user.LastName = user.LastName.ToUpper(new CultureInfo("tr-TR", false));
 
+			//şifreyi hashleme
+			user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+
             await _uow.UserRepository.AddAsync(user);
 			await _uow.SaveChangesAsync();
 
@@ -74,7 +77,7 @@ namespace APITemplate.Business.Concrete
 			return userResponse;
 		}
 
-		public async Task<List<UserDTOResponse>> GetAllAsync(UserDTORequest entity)
+		public async Task<List<UserDTOResponse>> GetAllAsync(UserDTORequest? entity)
 		{
 			//filtreleme
 
@@ -111,7 +114,8 @@ namespace APITemplate.Business.Concrete
 
 		public async Task<UserDTOResponse> UpdateAsync(UserDTORequest entity)
 		{
-			var user = await _uow.UserRepository.GetAsync(x => x.Id == entity.Id);
+			var user = await _uow.UserRepository.GetAsync(x => x.Id == entity.Id,"UserRoles.Role");
+			entity.Password = user.Password;
 			if (entity.Image == null) //güncellemede fotoğraf eklememişse eski fotoğraf eklenir.
 			{
 				entity.Image = user.Image;
@@ -139,14 +143,33 @@ namespace APITemplate.Business.Concrete
 			return userResponse;
 		}
 
+
+		public async Task<UserDTOResponse> ResetPassword(UserDTOResetPassword entity)
+		{
+			var user = await _uow.UserRepository.GetAsync(x=>x.Id == entity.Id);
+
+			if (BCrypt.Net.BCrypt.Verify(entity.ConfirmPassword,user.Password))
+			{
+				user.Password = BCrypt.Net.BCrypt.HashPassword(entity.Password);
+
+				await _uow.UserRepository.UpdateAsync(user);
+				await _uow.SaveChangesAsync();
+			}
+
+			var userResponse = _mapper.Map<UserDTOResponse>(user);
+			return userResponse;
+		}
+
 		//Login
 		public async Task<LoginDTOResponse> LoginAsync(LoginDTORequest loginDTORequest)
 		{
-			var user = await _uow.UserRepository.GetAsync(x => x.Email == loginDTORequest.Email && x.Password == loginDTORequest.Password, "UserRoles.Role");
-			var userResponse = _mapper.Map<LoginDTOResponse>(user);
-			if (user != null)
+			var user = await _uow.UserRepository.GetAsync(x => x.Email == loginDTORequest.Email, "UserRoles.Role");
+
+			if (BCrypt.Net.BCrypt.Verify(loginDTORequest.Password,user.Password))
 			{
-				List<Claim> claims = new List<Claim>()
+                var userResponse = _mapper.Map<LoginDTOResponse>(user);
+
+                List<Claim> claims = new List<Claim>()
 				{
 					new Claim(ClaimTypes.Name,userResponse.Name),
 					new Claim(ClaimTypes.Email,userResponse.Email),
@@ -176,9 +199,16 @@ namespace APITemplate.Business.Concrete
 
 				var token = tokenHandler.CreateToken(tokenDescriptor);
 				userResponse.Token = tokenHandler.WriteToken(token);
+
+                return userResponse;
+            }
+
+			else
+			{
+				return null;
 			}
 
-			return userResponse;
 		}
+
 	}
 }

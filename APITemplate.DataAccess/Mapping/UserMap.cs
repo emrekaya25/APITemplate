@@ -20,6 +20,8 @@ namespace APITemplate.DataAccess.Mapping
 			builder.Property(x=>x.LastName).IsRequired().HasMaxLength(50);
 			builder.Property(x=>x.Password).IsRequired();
 
+			var hashedPassword = BCrypt.Net.BCrypt.HashPassword("123");
+
 			builder.HasData(new User
 			{
 				Id = 1,
@@ -27,11 +29,13 @@ namespace APITemplate.DataAccess.Mapping
 				LastName = "Admin",
 				Image = "string",
 				Email = "admin@gmail.com",
-				Password = "123",
+				Password = hashedPassword,
 				AddedTime = DateTime.Now,
 				UpdatedTime = DateTime.Now,
 				IsActive = true
 			});
+
+			
 		}
 	}
 }

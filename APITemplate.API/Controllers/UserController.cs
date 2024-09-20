@@ -98,5 +98,21 @@ namespace APITemplate.API.Controllers
 				return NotFound(ApiResponse<LoginDTOResponse>.SuccesNoDataFound("Kullanıcı adı veya şifre yanlış."));
 			}
 		}
+
+		[AllowAnonymous]
+		[FileLogger("Şifre Değiştirildi.")]
+		[HttpPost("/api/ResetPassword")]
+		public async Task<IActionResult> ResetPassword(UserDTOResetPassword userDTORequest)
+		{
+			var user = await _userService.ResetPassword(userDTORequest);
+			if (user != null)
+			{
+				return Ok(ApiResponse<UserDTOResponse>.SuccesWithData(user));
+			}
+			else
+			{
+				return NotFound(ApiResponse<UserDTOResponse>.SuccesNoDataFound("Şifre değiştirilemedi.."));
+			}
+		}
 	}
 }

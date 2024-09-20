@@ -11,5 +11,6 @@ namespace APITemplate.Business.Abstract
 	public interface IUserService:IGenericService<UserDTORequest,UserDTOResponse>
 	{
 		public Task<LoginDTOResponse> LoginAsync(LoginDTORequest loginDTORequest);
+		public Task<UserDTOResponse> ResetPassword(UserDTOResetPassword entity);
 	}
 }

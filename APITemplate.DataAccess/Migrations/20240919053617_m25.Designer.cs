@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APITemplate.DataAccess.Migrations
 {
     [DbContext(typeof(APITemplateContext))]
-    [Migration("20240918054205_m25")]
+    [Migration("20240919053617_m25")]
     partial class m25
     {
         /// <inheritdoc />
@@ -64,20 +64,20 @@ namespace APITemplate.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            AddedTime = new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(383),
-                            Guid = new Guid("ffdf1936-5e41-49c8-976f-06568cbf37de"),
+                            AddedTime = new DateTime(2024, 9, 19, 5, 36, 16, 881, DateTimeKind.Utc).AddTicks(4012),
+                            Guid = new Guid("aeeb0d53-656e-4b25-9aff-32aa09e6007b"),
                             IsActive = true,
                             Name = "Admin",
-                            UpdatedTime = new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(384)
+                            UpdatedTime = new DateTime(2024, 9, 19, 5, 36, 16, 881, DateTimeKind.Utc).AddTicks(4016)
                         },
                         new
                         {
                             Id = 2,
-                            AddedTime = new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(387),
-                            Guid = new Guid("5910b8a6-e4f2-4819-a71b-b6494e514ffa"),
+                            AddedTime = new DateTime(2024, 9, 19, 5, 36, 16, 881, DateTimeKind.Utc).AddTicks(4019),
+                            Guid = new Guid("4f2f59d0-86fd-4589-a44a-7453295abc61"),
                             IsActive = true,
                             Name = "Çalışan",
-                            UpdatedTime = new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(388)
+                            UpdatedTime = new DateTime(2024, 9, 19, 5, 36, 16, 881, DateTimeKind.Utc).AddTicks(4019)
                         });
                 });
 
@@ -137,15 +137,15 @@ namespace APITemplate.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            AddedTime = new DateTime(2024, 9, 18, 8, 42, 5, 760, DateTimeKind.Local).AddTicks(9067),
+                            AddedTime = new DateTime(2024, 9, 19, 8, 36, 16, 881, DateTimeKind.Local).AddTicks(743),
                             Email = "admin@gmail.com",
-                            Guid = new Guid("78bda474-0196-40e9-849c-2ad2ddec3ff8"),
+                            Guid = new Guid("cf1caa7a-aebb-4627-a6e1-d6a1bd7186c2"),
                             Image = "string",
                             IsActive = true,
                             LastName = "Admin",
                             Name = "Admin",
-                            Password = "123",
-                            UpdatedTime = new DateTime(2024, 9, 18, 8, 42, 5, 760, DateTimeKind.Local).AddTicks(9080)
+                            Password = "$2a$11$6XbBHPTcxexgLCNgb8yjke7c9s89evPF16XNQoaZxcXgYzvDg3.Ce",
+                            UpdatedTime = new DateTime(2024, 9, 19, 8, 36, 16, 881, DateTimeKind.Local).AddTicks(759)
                         });
                 });
 
@@ -193,11 +193,11 @@ namespace APITemplate.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            AddedTime = new DateTime(2024, 9, 18, 8, 42, 5, 761, DateTimeKind.Local).AddTicks(3877),
-                            Guid = new Guid("19c84e60-1c6f-4a7f-bc9b-cfe20fcdc0b8"),
+                            AddedTime = new DateTime(2024, 9, 19, 8, 36, 16, 881, DateTimeKind.Local).AddTicks(9376),
+                            Guid = new Guid("8f1e5819-370c-4981-9fe3-bb4fb0bb5e69"),
                             IsActive = true,
                             RoleId = 1,
-                            UpdatedTime = new DateTime(2024, 9, 18, 8, 42, 5, 761, DateTimeKind.Local).AddTicks(3881),
+                            UpdatedTime = new DateTime(2024, 9, 19, 8, 36, 16, 881, DateTimeKind.Local).AddTicks(9385),
                             UserId = 1
                         });
                 });

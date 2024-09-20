@@ -37,8 +37,10 @@ namespace APITemplate.DataAccess.Concrete.DataManagement
 				if (item.State == EntityState.Added)
 				{
 					item.Entity.AddedTime = DateTime.Now;
+					item.Entity.UpdatedTime = DateTime.Now;
 					item.Entity.Guid = Guid.NewGuid();
 					item.Entity.AddedIPV4Address = _accessor.HttpContext.Connection.RemoteIpAddress.ToString();
+					item.Entity.UpdatedIPV4Address = _accessor.HttpContext.Connection.RemoteIpAddress.ToString();
 
 					if (item.Entity.IsActive == null)
 					{

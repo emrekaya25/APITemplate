@@ -90,19 +90,19 @@ namespace APITemplate.DataAccess.Migrations
                 columns: new[] { "Id", "AddedIPV4Address", "AddedTime", "Guid", "IsActive", "Name", "UpdatedIPV4Address", "UpdatedTime" },
                 values: new object[,]
                 {
-                    { 1, null, new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(383), new Guid("ffdf1936-5e41-49c8-976f-06568cbf37de"), true, "Admin", null, new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(384) },
-                    { 2, null, new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(387), new Guid("5910b8a6-e4f2-4819-a71b-b6494e514ffa"), true, "Çalışan", null, new DateTime(2024, 9, 18, 5, 42, 5, 761, DateTimeKind.Utc).AddTicks(388) }
+                    { 1, null, new DateTime(2024, 9, 19, 5, 36, 16, 881, DateTimeKind.Utc).AddTicks(4012), new Guid("aeeb0d53-656e-4b25-9aff-32aa09e6007b"), true, "Admin", null, new DateTime(2024, 9, 19, 5, 36, 16, 881, DateTimeKind.Utc).AddTicks(4016) },
+                    { 2, null, new DateTime(2024, 9, 19, 5, 36, 16, 881, DateTimeKind.Utc).AddTicks(4019), new Guid("4f2f59d0-86fd-4589-a44a-7453295abc61"), true, "Çalışan", null, new DateTime(2024, 9, 19, 5, 36, 16, 881, DateTimeKind.Utc).AddTicks(4019) }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "AddedIPV4Address", "AddedTime", "Email", "Guid", "Image", "IsActive", "LastName", "Name", "Password", "UpdatedIPV4Address", "UpdatedTime" },
-                values: new object[] { 1, null, new DateTime(2024, 9, 18, 8, 42, 5, 760, DateTimeKind.Local).AddTicks(9067), "admin@gmail.com", new Guid("78bda474-0196-40e9-849c-2ad2ddec3ff8"), "string", true, "Admin", "Admin", "123", null, new DateTime(2024, 9, 18, 8, 42, 5, 760, DateTimeKind.Local).AddTicks(9080) });
+                values: new object[] { 1, null, new DateTime(2024, 9, 19, 8, 36, 16, 881, DateTimeKind.Local).AddTicks(743), "admin@gmail.com", new Guid("cf1caa7a-aebb-4627-a6e1-d6a1bd7186c2"), "string", true, "Admin", "Admin", "$2a$11$6XbBHPTcxexgLCNgb8yjke7c9s89evPF16XNQoaZxcXgYzvDg3.Ce", null, new DateTime(2024, 9, 19, 8, 36, 16, 881, DateTimeKind.Local).AddTicks(759) });
 
             migrationBuilder.InsertData(
                 table: "UserRole",
                 columns: new[] { "Id", "AddedIPV4Address", "AddedTime", "Guid", "IsActive", "RoleId", "UpdatedIPV4Address", "UpdatedTime", "UserId" },
-                values: new object[] { 1, null, new DateTime(2024, 9, 18, 8, 42, 5, 761, DateTimeKind.Local).AddTicks(3877), new Guid("19c84e60-1c6f-4a7f-bc9b-cfe20fcdc0b8"), true, 1, null, new DateTime(2024, 9, 18, 8, 42, 5, 761, DateTimeKind.Local).AddTicks(3881), 1 });
+                values: new object[] { 1, null, new DateTime(2024, 9, 19, 8, 36, 16, 881, DateTimeKind.Local).AddTicks(9376), new Guid("8f1e5819-370c-4981-9fe3-bb4fb0bb5e69"), true, 1, null, new DateTime(2024, 9, 19, 8, 36, 16, 881, DateTimeKind.Local).AddTicks(9385), 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRole_RoleId",
