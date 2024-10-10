@@ -59,6 +59,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<APITemplateContext>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<Lazy<IUnitOfWork>>(provider => new Lazy<IUnitOfWork>(() => provider.GetRequiredService<IUnitOfWork>())); //Lazy kullaným
 builder.Services.AddScoped<IUserService, UserManager>();
 builder.Services.AddScoped<IUserRoleService, UserRoleManager>();
 builder.Services.AddScoped<IRoleService, RoleManager>();

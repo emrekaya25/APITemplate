@@ -22,15 +22,16 @@ namespace APITemplate.Business.Concrete
 {
 	public class UserManager : IUserService
 	{
-		private readonly IUnitOfWork _uow;
+		private readonly Lazy<IUnitOfWork> _uow;
 		private readonly IMapper _mapper;
 		private readonly IConfiguration _configuration;
-		public UserManager(IUnitOfWork uow, IMapper mapper, IConfiguration configuration)
+		public UserManager(Lazy<IUnitOfWork> uow, IMapper mapper, IConfiguration configuration)
 		{
 			_uow = uow;
 			_mapper = mapper;
 			_configuration = configuration;
 		}
+		
 
 		public async Task<UserDTOResponse> AddAsync(UserDTORequest entity)
 		{
@@ -43,8 +44,8 @@ namespace APITemplate.Business.Concrete
 			//şifreyi hashleme
 			user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
 
-            await _uow.UserRepository.AddAsync(user);
-			await _uow.SaveChangesAsync();
+            await _uow.Value.UserRepository.AddAsync(user);
+			await _uow.Value.SaveChangesAsync();
 
 			//default role ekleme
 			//UserRole userRole = new UserRole();
@@ -60,18 +61,18 @@ namespace APITemplate.Business.Concrete
 		public async Task<UserDTOResponse> DeleteAsync(UserDTORequest entity)
 		{
 			// user'a bağlı rolleri silme
-			var userRoles = await _uow.UserRoleRepository.GetAllAsync(x=>x.UserId == entity.Id);
+			var userRoles = await _uow.Value.UserRoleRepository.GetAllAsync(x=>x.UserId == entity.Id);
 			if (userRoles != null)
 			{
 				foreach (var userRole in userRoles)
 				{
-					await _uow.UserRoleRepository.DeleteAsync(userRole);
+					await _uow.Value.UserRoleRepository.DeleteAsync(userRole);
 				}
-				await _uow.SaveChangesAsync();
+				await _uow.Value.SaveChangesAsync();
 			}
 			var user = _mapper.Map<User>(entity);
-			await _uow.UserRepository.DeleteAsync(user);
-			await _uow.SaveChangesAsync();
+			await _uow.Value.UserRepository.DeleteAsync(user);
+			await _uow.Value.SaveChangesAsync();
 
 			var userResponse = _mapper.Map<UserDTOResponse>(user);
 			return userResponse;
@@ -81,7 +82,7 @@ namespace APITemplate.Business.Concrete
 		{
 			//filtreleme
 
-			var users = await _uow.UserRepository.GetAllAsync(x => true, "UserRoles.Role");
+			var users = await _uow.Value.UserRepository.GetAllAsync(x => true, "UserRoles.Role");
 			List<UserDTOResponse> userDTOResponses = new();
 
 			if (!entity.Name.Contains("string"))
@@ -103,10 +104,10 @@ namespace APITemplate.Business.Concrete
 
 		public async Task<UserDTOResponse> GetAsync(UserDTORequest entity)
 		{
-			var user = await _uow.UserRepository.GetAsync(x=>x.Id == entity.Id, "UserRoles.Role");
+			var user = await _uow.Value.UserRepository.GetAsync(x=>x.Id == entity.Id, "UserRoles.Role");
 			if (user == null)
 			{
-				user = await _uow.UserRepository.GetAsync(x=>x.Guid == entity.Guid,"UserRoles.Role");
+				user = await _uow.Value.UserRepository.GetAsync(x=>x.Guid == entity.Guid,"UserRoles.Role");
 			}
 			var userResponse = _mapper.Map<UserDTOResponse>(user);
 			return userResponse;
@@ -114,7 +115,7 @@ namespace APITemplate.Business.Concrete
 
 		public async Task<UserDTOResponse> UpdateAsync(UserDTORequest entity)
 		{
-			var user = await _uow.UserRepository.GetAsync(x => x.Id == entity.Id,"UserRoles.Role");
+			var user = await _uow.Value.UserRepository.GetAsync(x => x.Id == entity.Id,"UserRoles.Role");
 			entity.Password = user.Password;
 			if (entity.Image == null) //güncellemede fotoğraf eklememişse eski fotoğraf eklenir.
 			{
@@ -123,21 +124,21 @@ namespace APITemplate.Business.Concrete
 
 			if (entity.UserRoles.Count > 0) // güncellemede önceki tüm userRole bilgilerini siliyorum.
 			{
-				var userRoles = await _uow.UserRoleRepository.GetAllAsync(x=>x.UserId == entity.Id);
+				var userRoles = await _uow.Value.UserRoleRepository.GetAllAsync(x=>x.UserId == entity.Id);
 				if (userRoles != null)
 				{
                     foreach (var userRole in userRoles)
                     {
-                        await _uow.UserRoleRepository.DeleteAsync(userRole);
+                        await _uow.Value.UserRoleRepository.DeleteAsync(userRole);
                     }
-                    await _uow.SaveChangesAsync();
+                    await _uow.Value.SaveChangesAsync();
 				}
 			}
 
 			user = _mapper.Map(entity,user);
 
-			await _uow.UserRepository.UpdateAsync(user);
-			await _uow.SaveChangesAsync();
+			await _uow.Value.UserRepository.UpdateAsync(user);
+			await _uow.Value.SaveChangesAsync();
 
 			var userResponse = _mapper.Map<UserDTOResponse>(user);
 			return userResponse;
@@ -146,14 +147,14 @@ namespace APITemplate.Business.Concrete
 
 		public async Task<UserDTOResponse> ResetPassword(UserDTOResetPassword entity)
 		{
-			var user = await _uow.UserRepository.GetAsync(x=>x.Id == entity.Id);
+			var user = await _uow.Value.UserRepository.GetAsync(x=>x.Id == entity.Id);
 
 			if (BCrypt.Net.BCrypt.Verify(entity.ConfirmPassword,user.Password))
 			{
 				user.Password = BCrypt.Net.BCrypt.HashPassword(entity.Password);
 
-				await _uow.UserRepository.UpdateAsync(user);
-				await _uow.SaveChangesAsync();
+				await _uow.Value.UserRepository.UpdateAsync(user);
+				await _uow.Value.SaveChangesAsync();
 			}
 
 			var userResponse = _mapper.Map<UserDTOResponse>(user);
@@ -163,7 +164,7 @@ namespace APITemplate.Business.Concrete
 		//Login
 		public async Task<LoginDTOResponse> LoginAsync(LoginDTORequest loginDTORequest)
 		{
-			var user = await _uow.UserRepository.GetAsync(x => x.Email == loginDTORequest.Email, "UserRoles.Role");
+			var user = await _uow.Value.UserRepository.GetAsync(x => x.Email == loginDTORequest.Email, "UserRoles.Role");
 
 			if (BCrypt.Net.BCrypt.Verify(loginDTORequest.Password,user.Password))
 			{
@@ -209,6 +210,5 @@ namespace APITemplate.Business.Concrete
 			}
 
 		}
-
-	}
+    }
 }
