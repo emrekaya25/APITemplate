@@ -6,9 +6,11 @@ using APITemplate.DataAccess.Concrete.Context;
 using APITemplate.DataAccess.Concrete.DataManagement;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.IO.Compression;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +19,24 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+//Response Compression
+builder.Services.AddResponseCompression(options =>
+{
+	options.EnableForHttps = true;
+	//options.Providers.Add<BrotliCompressionProvider>(); bu defaultta var güçlü ama eski teknolojiyi kapsamýyor. (daha az boyut döner)
+	//options.Providers.Add<GzipCompressionProvider>(); bu her tarayýcýda çalýþýyor fakat brotli kadar güçlü sýkýþtýrma yapamýyor. (yine az boyut döner fakat brotliye göre fazla boyutlu döner)
+});
+
+// sýkýþtýrma levellerýný ayarlama
+builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
+{
+	// options.Level = CompressionLevel.Fastest; Default hali bu
+	// response boyutu
+	// Optimal > Fastest > SmallestSize
+});
+
 builder.Services.AddEndpointsApiExplorer();
 
 //swagger'a token kontrolü ekleme
@@ -95,6 +115,9 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
+//Response Compression
+app.UseResponseCompression();
 
 app.UseHttpsRedirection();
 
