@@ -1,4 +1,5 @@
 ﻿using APITemplate.Business.Abstract;
+using APITemplate.Business.Logger;
 using APITemplate.Business.Validation.UserValidator;
 using APITemplate.Entity.DTO.LoginDTO;
 using APITemplate.Entity.DTO.UserDTO;
@@ -27,7 +28,8 @@ namespace APITemplate.API.Controllers
 		[FileLogger("Kullanıcı Eklendi.")]
 		[HttpPost("/api/AddUser")]
 		[ValidationFilter(typeof(UserValidation))]
-		public async Task<IActionResult> AddUser(UserDTORequest userDTORequest)
+        [LogActivity("Create", "Kullanıcı kaydı oluşturuldu")]
+        public async Task<IActionResult> AddUser(UserDTORequest userDTORequest)
 		{
 			var user = await _userService.AddAsync(userDTORequest);
 			return Ok(ApiResponse<UserDTOResponse>.SuccesWithData(user));
@@ -86,7 +88,8 @@ namespace APITemplate.API.Controllers
 		[AllowAnonymous]
 		[FileLogger("Sisteme Giriş Yapıldı.")]
 		[HttpPost("/api/Login")]
-		public async Task<IActionResult> Login(LoginDTORequest loginDTORequest)
+        [LogActivity("Login", "Kullanıcı giriş yaptı.")]
+        public async Task<IActionResult> Login(LoginDTORequest loginDTORequest)
 		{
 			var user = await _userService.LoginAsync(loginDTORequest);
 			if (user != null)

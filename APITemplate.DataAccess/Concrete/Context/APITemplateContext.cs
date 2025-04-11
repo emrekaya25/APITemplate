@@ -1,6 +1,7 @@
 ﻿using APITemplate.DataAccess.Mapping;
 using APITemplate.Entity.Base;
 using APITemplate.Entity.Poco;
+using APITemplate.Tools.Logger;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace APITemplate.DataAccess.Concrete.Context
 		public DbSet<User> User { get; set; }
 		public DbSet<Role> Role { get; set; }
 		public DbSet<UserRole> UserRole { get; set; }
+		public DbSet<UserActivityLog> UserActivityLog {get; set;}
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{

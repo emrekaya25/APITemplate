@@ -1,6 +1,7 @@
 using APITemplate.API.Middleware;
 using APITemplate.Business.Abstract;
 using APITemplate.Business.Concrete;
+using APITemplate.Business.Logger;
 using APITemplate.DataAccess.Abstract.DataManagement;
 using APITemplate.DataAccess.Concrete.Context;
 using APITemplate.DataAccess.Concrete.DataManagement;
@@ -83,6 +84,13 @@ builder.Services.AddScoped<Lazy<IUnitOfWork>>(provider => new Lazy<IUnitOfWork>(
 builder.Services.AddScoped<IUserService, UserManager>();
 builder.Services.AddScoped<IUserRoleService, UserRoleManager>();
 builder.Services.AddScoped<IRoleService, RoleManager>();
+
+
+builder.Services.AddControllers(options =>
+{
+    // Global olarak filtreyi ekle
+    options.Filters.Add<LogActivityActionFilter>();
+});
 
 builder.Services.AddFluentValidationAutoValidation();
 

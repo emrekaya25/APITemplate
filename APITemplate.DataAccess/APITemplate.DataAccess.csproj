@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\APITemplate.Entity\APITemplate.Entity.csproj" />
+    <ProjectReference Include="..\APITemplate.Tools\APITemplate.Tools.csproj" />
   </ItemGroup>
 
 </Project>
